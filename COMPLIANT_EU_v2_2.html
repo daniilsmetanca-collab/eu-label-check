@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMPLIANT.EU — EU Food Information Compliance Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #0c2340;
+  --brand-mid: #1a3a5c;
+  --accent: #1a8a6e;
+  --accent-light: #22b88a;
+  --accent-glow: rgba(26, 138, 110, 0.12);
+  --pass: #16a34a;
+  --pass-bg: #f0fdf4;
+  --pass-border: #bbf7d0;
+  --flag: #d97706;
+  --flag-bg: #fffbeb;
+  --flag-border: #fde68a;
+  --block: #dc2626;
+  --block-bg: #fef2f2;
+  --block-border: #fecaca;
+  --info: #2563eb;
+  --info-bg: #eff6ff;
+  --info-border: #bfdbfe;
+  --surface: #ffffff;
+  --bg: #f6f7f9;
+  --bg-alt: #eef0f4;
+  --border: #dfe3ea;
+  --border-light: #eceef2;
+  --text: #111827;
+  --text-2: #4b5563;
+  --text-3: #9ca3af;
+  --font: 'DM Sans', system-ui, sans-serif;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --mono: 'JetBrains Mono', monospace;
+  --r: 8px;
+  --r-lg: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+.nav {
+  background: var(--brand);
+  position: sticky; top: 0; z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-inner {
+  max-width: 1080px; margin: 0 auto;
+  padding: 14px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.3px;
+}
+.nav-logo em { color: var(--accent-light); font-style: normal; }
+.nav-sub { font-size: 11px; color: rgba(255,255,255,0.4); font-family: var(--mono); letter-spacing: 0.8px; text-transform: uppercase; }
+
+/* ── HERO ── */
+.hero {
+  max-width: 1080px; margin: 0 auto; padding: 40px 28px 20px;
+}
+.hero h1 {
+  font-family: var(--serif); font-size: 36px; font-weight: 400; color: var(--brand); letter-spacing: -0.5px; line-height: 1.2;
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-sub {
+  margin-top: 10px; font-size: 15px; color: var(--text-2); max-width: 680px; line-height: 1.6;
+}
+.hero-badges {
+  margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px;
+}
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px; border-radius: 100px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase;
+  background: var(--bg-alt); color: var(--text-2); border: 1px solid var(--border);
+}
+.badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+a.badge:hover { border-color: var(--accent); background: var(--accent-glow); color: var(--accent); }
+
+/* ── LAYOUT ── */
+.main { max-width: 1080px; margin: 0 auto; padding: 0 28px 60px; }
+
+/* ── TABS ── */
+.tab-bar {
+  display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 28px; margin-top: 8px;
+}
+.tab {
+  padding: 12px 20px; font-size: 13px; font-weight: 600; color: var(--text-3);
+  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: all 0.15s; background: none; border-top: none; border-left: none; border-right: none;
+  font-family: var(--font);
+}
+.tab:hover { color: var(--text-2); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow-sm);
+}
+.card-head {
+  font-size: 14px; font-weight: 600; color: var(--brand); margin-bottom: 16px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border-light);
+  display: flex; align-items: center; gap: 10px;
+}
+.card-head .icon {
+  width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; background: var(--accent-glow); color: var(--accent);
+}
+
+/* ── FORM ── */
+.fg { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fg.three { grid-template-columns: 1fr 1fr 1fr; }
+.fg .full { grid-column: 1 / -1; }
+
+.field label {
+  display: block; font-size: 11px; font-weight: 600; color: var(--text-2);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;
+}
+.field input, .field select, .field textarea {
+  width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--r);
+  font-family: var(--font); font-size: 13px; color: var(--text); background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.field textarea { resize: vertical; min-height: 70px; }
+.field .hint { font-size: 11px; color: var(--text-3); margin-top: 3px; }
+
+/* ── ALLERGEN GRID ── */
+.allergen-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px;
+}
+.allergen-item {
+  display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+  border: 1px solid var(--border-light); border-radius: var(--r); font-size: 13px; color: var(--text-2);
+  cursor: pointer; transition: all 0.12s; background: #fff;
+}
+.allergen-item:hover { border-color: var(--accent); background: var(--accent-glow); }
+.allergen-item input { accent-color: var(--accent); width: 15px; height: 15px; }
+.allergen-item.detected { border-color: var(--flag); background: var(--flag-bg); }
+
+/* ── NUTRITION TABLE ── */
+.nutri-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+.nutri-grid .field input { text-align: right; }
+
+/* ── BUTTONS ── */
+.btn-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.btn {
+  padding: 11px 24px; border: none; border-radius: var(--r); font-family: var(--font);
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); box-shadow: var(--shadow); }
+.btn-ghost { background: transparent; color: var(--text-2); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--bg); }
+
+/* ── RESULTS ── */
+#resultsPanel { display: none; }
+#resultsPanel.visible { display: block; }
+
+.summary-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 18px; text-align: center; box-shadow: var(--shadow-sm);
+}
+.stat-card .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); font-weight: 600; }
+.stat-card .stat-val { font-size: 28px; font-weight: 700; font-family: var(--mono); margin: 6px 0 2px; }
+.stat-card .stat-sub { font-size: 11px; color: var(--text-3); }
+.stat-card.s-pass .stat-val { color: var(--pass); }
+.stat-card.s-flag .stat-val { color: var(--flag); }
+.stat-card.s-block .stat-val { color: var(--block); }
+.stat-card.s-risk .stat-val { color: var(--brand); }
+
+.verdict-bar {
+  padding: 14px 20px; border-radius: var(--r-lg); margin-bottom: 24px;
+  font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px;
+}
+.verdict-bar.v-pass { background: var(--pass-bg); border: 1px solid var(--pass-border); color: var(--pass); }
+.verdict-bar.v-flag { background: var(--flag-bg); border: 1px solid var(--flag-border); color: var(--flag); }
+.verdict-bar.v-block { background: var(--block-bg); border: 1px solid var(--block-border); color: var(--block); }
+
+/* ── CHECK ITEMS ── */
+.checks { display: flex; flex-direction: column; gap: 8px; }
+.chk {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
+  overflow: hidden; box-shadow: var(--shadow-sm); transition: border-color 0.15s;
+}
+.chk:hover { border-color: #ccc; }
+.chk-head {
+  display: grid; grid-template-columns: 36px 1fr 72px; gap: 12px; align-items: center;
+  padding: 14px 18px; cursor: pointer;
+}
+.chk-icon {
+  width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 15px;
+}
+.chk-icon.pass { background: var(--pass-bg); color: var(--pass); }
+.chk-icon.flag { background: var(--flag-bg); color: var(--flag); }
+.chk-icon.block { background: var(--block-bg); color: var(--block); }
+.chk-icon.na { background: var(--bg-alt); color: var(--text-3); }
+
+.chk-info { min-width: 0; }
+.chk-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.chk-preview { font-size: 12px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.chk-conf { font-size: 11px; font-family: var(--mono); color: var(--text-3); text-align: right; }
+
+.chk-body {
+  display: none; padding: 0 18px 16px 66px; border-top: 1px solid var(--border-light);
+}
+.chk.open .chk-body { display: block; padding-top: 14px; }
+.chk-row { display: flex; gap: 8px; margin-bottom: 10px; font-size: 13px; }
+.chk-row strong { min-width: 110px; color: var(--text); flex-shrink: 0; }
+.chk-row span { color: var(--text-2); }
+
+.disclaimer {
+  margin-top: 32px; padding: 16px 20px; background: var(--bg-alt); border-radius: var(--r-lg);
+  font-size: 12px; color: var(--text-3); line-height: 1.6; border: 1px solid var(--border-light);
+}
+.disclaimer strong { color: var(--text-2); }
+
+/* ── FOOTER ── */
+.footer {
+  max-width: 1080px; margin: 0 auto; padding: 32px 28px; text-align: center;
+  font-size: 11px; color: var(--text-3); border-top: 1px solid var(--border-light);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 26px; }
+  .fg, .fg.three { grid-template-columns: 1fr; }
+  .nutri-grid { grid-template-columns: 1fr 1fr; }
+  .summary-grid { grid-template-columns: 1fr 1fr; }
+  .tab { padding: 10px 14px; font-size: 12px; }
+  .chk-head { grid-template-columns: 32px 1fr; }
+  .chk-conf { display: none; }
+  #howItWorks > div:first-child { grid-template-columns: 1fr !important; }
+}
+
+/* ── PRINT ── */
+@media print {
+  .nav { position: static; }
+  .tab-bar, .btn-row, .form-section { display: none !important; }
+  #resultsPanel { display: block !important; }
+  .chk-body { display: block !important; padding-top: 8px !important; }
+  .chk { break-inside: avoid; }
+  body { background: #fff; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-inner">
+  <div class="nav-logo">COMPLIANT<em>.EU</em></div>
+  <div class="nav-sub">Food Information Compliance Tool v2.0</div>
+</div></nav>
+
+<div class="hero">
+  <h1>Validate your product against <em>EU food information law</em></h1>
+  <p class="hero-sub">A free, open-source compliance screening tool for food business operators, quality managers, and regulatory professionals. Check your product label against EU Regulation 1169/2011, claims rules, allergen requirements, and sector-specific legislation — instantly, in your browser.</p>
+  <div class="hero-badges">
+    <a href="https://eur-lex.europa.eu/eli/reg/2011/1169/oj/eng" target="_blank" rel="noopener" class="badge" style="text-decoration:none"><span class="dot"></span>Reg. 1169/2011 (FIC)</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2006/1924/oj/eng" target="_blank" rel="noopener" class="badge" style="text-decoration:none"><span class="dot"></span>Reg. 1924/2006 (Claims)</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2019/787/oj/eng" target="_blank" rel="noopener" class="badge" style="text-decoration:none"><span class="dot"></span>Reg. 2019/787 (Spirits)</a>
+    <a href="https://eur-lex.europa.eu/eli/dir/2011/91/oj/eng" target="_blank" rel="noopener" class="badge" style="text-decoration:none"><span class="dot"></span>Dir. 2011/91/EU (Lot)</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2011/1169/oj/eng" target="_blank" rel="noopener" class="badge" style="text-decoration:none"><span class="dot"></span>Annex II — 14 Allergens</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2011/1169/oj/eng" target="_blank" rel="noopener" class="badge" style="text-decoration:none"><span class="dot"></span>Nutrition Declaration</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2011/1169/oj/eng" target="_blank" rel="noopener" class="badge" style="text-decoration:none"><span class="dot"></span>QUID (Art. 22)</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2015/2283/oj/eng" target="_blank" rel="noopener" class="badge" style="text-decoration:none"><span class="dot"></span>Reg. 2015/2283 (Novel Food)</a>
+    <a href="https://eur-lex.europa.eu/eli/reg/2018/848/oj/eng" target="_blank" rel="noopener" class="badge" style="text-decoration:none"><span class="dot"></span>Reg. 2018/848 (Organic)</a>
+  </div>
+  <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+    <a href="#formStart" class="btn btn-primary" style="text-decoration:none">Start Compliance Check ↓</a>
+    <a href="#howItWorks" class="btn btn-ghost" style="text-decoration:none">How it works</a>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="howItWorks" style="max-width:1080px;margin:0 auto;padding:0 28px 20px">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <div class="card" style="text-align:center;padding:24px 20px">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><svg width="18" height="18" fill="none" stroke="var(--accent)" stroke-width="2"><rect x="2" y="2" width="14" height="14" rx="2"/><line x1="5" y1="6" x2="13" y2="6"/><line x1="5" y1="9" x2="11" y2="9"/><line x1="5" y1="12" x2="9" y2="12"/></svg></div>
+      <div style="font-size:14px;font-weight:600;color:var(--brand);margin-bottom:6px">1. Enter product data</div>
+      <div style="font-size:13px;color:var(--text-2)">Fill in your product details across 5 sections: identity, labelling, ingredients, nutrition, and claims.</div>
+    </div>
+    <div class="card" style="text-align:center;padding:24px 20px">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><svg width="18" height="18" fill="none" stroke="var(--accent)" stroke-width="2"><circle cx="9" cy="9" r="7"/><polyline points="6,9 8,11 12,7"/></svg></div>
+      <div style="font-size:14px;font-weight:600;color:var(--brand);margin-bottom:6px">2. Instant validation</div>
+      <div style="font-size:13px;color:var(--text-2)">Up to 18 automated checks run against EU regulations. Allergens are scanned against all 14 Annex II categories.</div>
+    </div>
+    <div class="card" style="text-align:center;padding:24px 20px">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><svg width="18" height="18" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4,2 L14,2 L14,16 L4,16 Z"/><line x1="7" y1="5" x2="11" y2="5"/><line x1="7" y1="8" x2="11" y2="8"/><line x1="7" y1="11" x2="10" y2="11"/></svg></div>
+      <div style="font-size:14px;font-weight:600;color:var(--brand);margin-bottom:6px">3. Actionable report</div>
+      <div style="font-size:13px;color:var(--text-2)">Get a detailed report with legal references, risk score, and specific recommendations. Export as PDF or JSON.</div>
+    </div>
+  </div>
+  <div style="background:var(--info-bg);border:1px solid var(--info-border);border-radius:var(--r-lg);padding:14px 20px;margin-top:16px;font-size:13px;color:var(--info);display:flex;align-items:start;gap:10px">
+    <svg width="16" height="16" fill="none" stroke="var(--info)" stroke-width="2" style="flex-shrink:0;margin-top:2px"><circle cx="8" cy="8" r="7"/><line x1="8" y1="5" x2="8" y2="9"/><circle cx="8" cy="11.5" r="0.5" fill="var(--info)"/></svg>
+    <span><strong>Privacy:</strong> All processing happens locally in your browser. No data is sent to any server. No cookies, no tracking, no account required. Your product information never leaves your device.</span>
+  </div>
+</div>
+
+<div id="formStart"></div>
+
+<div class="main">
+  <div class="form-section">
+    <div class="tab-bar">
+      <button class="tab active" onclick="switchTab(0)">Product</button>
+      <button class="tab" onclick="switchTab(1)">Labeling</button>
+      <button class="tab" onclick="switchTab(2)">Ingredients & Allergens</button>
+      <button class="tab" onclick="switchTab(3)">Nutrition</button>
+      <button class="tab" onclick="switchTab(4)">Claims & Other</button>
+      <button class="tab" onclick="switchTab(5)">Legal Basis</button>
+    </div>
+
+    <!-- TAB 0: PRODUCT -->
+    <div class="tab-panel active" id="tab0">
+      <div class="card">
+        <div class="card-head"><span class="icon">1</span> Product Identity</div>
+        <div class="fg">
+          <div class="field"><label>Product Name *</label><input id="f_name" placeholder="e.g. Organic Tomato Soup"></div>
+          <div class="field"><label>Company / FBO *</label><input id="f_company" placeholder="e.g. GoodFood BV"></div>
+          <div class="field"><label>Food Category</label>
+            <select id="f_cat">
+              <option value="">Select...</option>
+              <option value="Dairy">Dairy</option>
+              <option value="Bakery">Bakery & Cereals</option>
+              <option value="Meat">Meat & Poultry</option>
+              <option value="Fish_seafood">Fish & Seafood</option>
+              <option value="Fruit_veg">Fruit & Vegetables</option>
+              <option value="Ready_meal">Ready Meals / Prepared Foods</option>
+              <option value="Snacks">Snacks & Confectionery</option>
+              <option value="Sauces">Sauces, Dressings & Condiments</option>
+              <option value="Beverage_non_alc">Non-Alcoholic Beverages</option>
+              <option value="Spirit">Spirit Drinks</option>
+              <option value="Wine">Wine</option>
+              <option value="Beer">Beer</option>
+              <option value="Supplement">Food Supplements</option>
+              <option value="Infant">Infant / Young Child Food</option>
+              <option value="Frozen">Frozen Foods</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field"><label>Subcategory / Specific Type</label><input id="f_subcat" placeholder="e.g. Gouda, Sourdough bread, Gin"></div>
+          <div class="field"><label>Net Quantity</label><input id="f_qty" placeholder="e.g. 500 g, 1 L, 330 ml"></div>
+          <div class="field"><label>Packaging Type</label>
+            <select id="f_pkg">
+              <option value="prepacked">Prepacked</option>
+              <option value="non_prepacked">Non-prepacked</option>
+              <option value="distance">Distance selling (online)</option>
+            </select>
+          </div>
+          <div class="field"><label>ABV (% vol) — if alcoholic</label><input id="f_abv" type="number" step="0.1" placeholder="Leave blank if non-alcoholic"></div>
+          <div class="field"><label>Target Markets</label><input id="f_markets" placeholder="e.g. NL, DE, FR, EU-wide"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 1: LABELING -->
+    <div class="tab-panel" id="tab1">
+      <div class="card">
+        <div class="card-head"><span class="icon">2</span> Label & Operator Information</div>
+        <div class="fg">
+          <div class="field"><label>Operator Name (on label)</label><input id="f_op_name" placeholder="FBO name as printed on label"></div>
+          <div class="field"><label>Operator Address</label><input id="f_op_addr" placeholder="Full address on label"></div>
+          <div class="field"><label>Country of Origin</label><input id="f_origin" placeholder="e.g. Netherlands"></div>
+          <div class="field"><label>Place of Provenance</label><input id="f_provenance" placeholder="If different from origin"></div>
+          <div class="field"><label>Lot Identification</label><input id="f_lot" placeholder="e.g. L2025-0312"></div>
+          <div class="field"><label>Date Marking</label>
+            <select id="f_date_type">
+              <option value="bbd">Best before date provided</option>
+              <option value="use_by">Use by date provided</option>
+              <option value="exempt">Exempt (>10% ABV, salt, vinegar, etc.)</option>
+              <option value="none">Not provided</option>
+            </select>
+          </div>
+          <div class="field"><label>Storage Conditions</label><input id="f_storage" placeholder="e.g. Keep refrigerated below 5°C"></div>
+          <div class="field"><label>Instructions for Use</label><input id="f_instructions" placeholder="e.g. Heat for 3 minutes at 800W"></div>
+          <div class="field"><label>Language(s) on Label</label><input id="f_lang" placeholder="e.g. Dutch, English, German"></div>
+          <div class="field"><label>Largest Surface Area (cm²)</label><input id="f_surface" type="number" placeholder="For font size check. e.g. 120"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: INGREDIENTS & ALLERGENS -->
+    <div class="tab-panel" id="tab2">
+      <div class="card">
+        <div class="card-head"><span class="icon">3</span> Ingredient List</div>
+        <div class="fg">
+          <div class="field full">
+            <label>Ingredients (comma-separated, descending weight order)</label>
+            <textarea id="f_ingredients" rows="4" placeholder="e.g. Water, Tomatoes (35%), Cream (MILK), Onion, Olive oil, Salt, Sugar, Garlic, Basil, Black pepper, Citric acid (E330)"></textarea>
+            <div class="hint">List all ingredients including additives with E-numbers, compound ingredients, and processing aids where required. Allergens should appear here for the scan to detect them.</div>
+          </div>
+          <div class="field full">
+            <label>QUID Required?</label>
+            <select id="f_quid">
+              <option value="yes">Yes — key ingredient % declared on label</option>
+              <option value="no">No — not applicable</option>
+              <option value="unsure">Unsure</option>
+            </select>
+            <div class="hint">QUID (Quantitative Ingredient Declaration) required when ingredient appears in the name, is highlighted, or is essential to characterise the food (Art. 22).</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="icon">!</span> Allergen Declaration — Annex II (14 Regulated Allergens)</div>
+        <p style="font-size:13px;color:var(--text-2);margin-bottom:14px">Tick allergens that are <strong>declared on your label</strong>. The tool will also scan your ingredient list for potential undeclared allergens.</p>
+        <div class="allergen-grid" id="allergenGrid"></div>
+      </div>
+    </div>
+
+    <!-- TAB 3: NUTRITION -->
+    <div class="tab-panel" id="tab3">
+      <div class="card">
+        <div class="card-head"><span class="icon">4</span> Nutrition Declaration (per 100g or 100ml)</div>
+        <p style="font-size:13px;color:var(--text-2);margin-bottom:14px">Mandatory for most prepacked foods (Art. 29-35). Leave blank if exempt.</p>
+        <div class="fg">
+          <div class="field"><label>Nutrition declaration provided?</label>
+            <select id="f_nutri_provided">
+              <option value="yes">Yes</option>
+              <option value="exempt">Exempt</option>
+              <option value="no">No — not provided</option>
+            </select>
+          </div>
+          <div class="field"><label>Expressed per</label>
+            <select id="f_nutri_per">
+              <option value="100g">per 100g</option>
+              <option value="100ml">per 100ml</option>
+              <option value="portion">per portion (also per 100g/ml?)</option>
+            </select>
+          </div>
+        </div>
+        <div class="nutri-grid" style="margin-top:14px">
+          <div class="field"><label>Energy (kJ)</label><input id="f_n_kj" type="number" step="0.1" placeholder="kJ"></div>
+          <div class="field"><label>Energy (kcal)</label><input id="f_n_kcal" type="number" step="0.1" placeholder="kcal"></div>
+          <div class="field"><label>Fat (g)</label><input id="f_n_fat" type="number" step="0.1" placeholder="g"></div>
+          <div class="field"><label>of which Saturates (g)</label><input id="f_n_sat" type="number" step="0.1" placeholder="g"></div>
+          <div class="field"><label>Carbohydrate (g)</label><input id="f_n_carb" type="number" step="0.1" placeholder="g"></div>
+          <div class="field"><label>of which Sugars (g)</label><input id="f_n_sugar" type="number" step="0.1" placeholder="g"></div>
+          <div class="field"><label>Protein (g)</label><input id="f_n_prot" type="number" step="0.1" placeholder="g"></div>
+          <div class="field"><label>Salt (g)</label><input id="f_n_salt" type="number" step="0.1" placeholder="g"></div>
+        </div>
+        <div class="hint" style="margin-top:8px">The Big 7: Energy, fat, saturates, carbohydrate, sugars, protein, salt — all mandatory fields (Art. 30).</div>
+      </div>
+    </div>
+
+    <!-- TAB 4: CLAIMS & OTHER -->
+    <div class="tab-panel" id="tab4">
+      <div class="card">
+        <div class="card-head"><span class="icon">5</span> Claims, GI & Additional Information</div>
+        <div class="fg">
+          <div class="field full">
+            <label>Nutrition / Health / Marketing Claims</label>
+            <textarea id="f_claims" rows="3" placeholder="e.g. High in fibre, Source of calcium, Handcrafted, No artificial colours, Supports immune function"></textarea>
+            <div class="hint">Include ALL claims appearing on label/packaging, including front-of-pack.</div>
+          </div>
+          <div class="field">
+            <label>Geographic Indication?</label>
+            <select id="f_gi"><option value="no">No</option><option value="pdo">PDO (Protected Designation of Origin)</option><option value="pgi">PGI (Protected Geographical Indication)</option><option value="tsg">TSG (Traditional Speciality Guaranteed)</option></select>
+          </div>
+          <div class="field"><label>GI Name</label><input id="f_gi_name" placeholder="e.g. Parmigiano Reggiano, Gouda Holland"></div>
+          <div class="field">
+            <label>Organic Certification?</label>
+            <select id="f_organic"><option value="no">No</option><option value="yes">Yes — EU organic logo present</option></select>
+          </div>
+          <div class="field">
+            <label>Novel Food?</label>
+            <select id="f_novel"><option value="no">No</option><option value="yes">Yes — contains novel food ingredient(s)</option><option value="unsure">Unsure</option></select>
+          </div>
+          <div class="field">
+            <label>GMO Declaration</label>
+            <select id="f_gmo"><option value="no">No GMO ingredients</option><option value="yes">Contains/produced from GMOs</option><option value="free">Labelled as GMO-free</option></select>
+          </div>
+          <div class="field full">
+            <label>Additional Notes</label>
+            <textarea id="f_notes" rows="2" placeholder="Any other label features, warnings, or concerns..."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: LEGAL BASIS -->
+    <div class="tab-panel" id="tab5">
+      <div class="card">
+        <div class="card-head"><span class="icon">§</span> Regulatory Framework</div>
+        <p style="font-size:13px;color:var(--text-2);margin-bottom:16px">This tool validates product labels against the following EU legislation. All texts are freely accessible via EUR-Lex, the official portal for European Union law.</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+
+          <div style="padding:14px 18px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border-light);border-left:3px solid var(--accent)">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--brand)">Regulation (EU) No 1169/2011</div>
+                <div style="font-size:13px;color:var(--text-2);margin-top:2px">Food Information to Consumers (FIC)</div>
+                <div style="font-size:12px;color:var(--text-3);margin-top:4px">Primary legal basis for this tool. Governs mandatory labelling for all food placed on the EU market.</div>
+                <div style="font-size:12px;font-family:var(--mono);color:var(--text-3);margin-top:6px">Articles referenced: 7 (fair practices), 8 (FBO responsibility), 9 (mandatory particulars), 13 (font size), 15 (language), 16 (exemptions), 17 (naming), 18–20 (ingredients), 21 (allergens, Annex II), 22 (QUID), 23 (net quantity), 24 (date marking, Annex X), 26 (origin), 28 (ABV, Annex XII), 29–35 (nutrition declaration)</div>
+              </div>
+              <a href="https://eur-lex.europa.eu/eli/reg/2011/1169/oj/eng" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:12px;padding:6px 14px;white-space:nowrap">View on EUR-Lex</a>
+            </div>
+          </div>
+
+          <div style="padding:14px 18px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border-light);border-left:3px solid var(--accent)">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--brand)">Regulation (EC) No 1924/2006</div>
+                <div style="font-size:13px;color:var(--text-2);margin-top:2px">Nutrition and Health Claims made on Foods</div>
+                <div style="font-size:12px;color:var(--text-3);margin-top:4px">Governs conditions for nutrition claims (Annex), health claims (Art. 13–14), and prohibition of health claims on alcohol >1.2% ABV (Art. 4(3)).</div>
+                <div style="font-size:12px;font-family:var(--mono);color:var(--text-3);margin-top:6px">Articles referenced: 4(3), 5, 8, 10, 13, 14, Annex</div>
+              </div>
+              <a href="https://eur-lex.europa.eu/eli/reg/2006/1924/oj/eng" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:12px;padding:6px 14px;white-space:nowrap">View on EUR-Lex</a>
+            </div>
+          </div>
+
+          <div style="padding:14px 18px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border-light);border-left:3px solid var(--accent)">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--brand)">Regulation (EU) 2019/787</div>
+                <div style="font-size:13px;color:var(--text-2);margin-top:2px">Spirit Drinks — definition, description, presentation, labelling, GI protection</div>
+                <div style="font-size:12px;color:var(--text-3);margin-top:4px">Defines spirit drink categories with minimum ABV thresholds and compositional rules. Protects geographical indications for spirits.</div>
+                <div style="font-size:12px;font-family:var(--mono);color:var(--text-3);margin-top:6px">Articles referenced: Annex I (categories), Art. 34–42 (GI)</div>
+              </div>
+              <a href="https://eur-lex.europa.eu/eli/reg/2019/787/oj/eng" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:12px;padding:6px 14px;white-space:nowrap">View on EUR-Lex</a>
+            </div>
+          </div>
+
+          <div style="padding:14px 18px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border-light);border-left:3px solid var(--accent)">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--brand)">Directive 2011/91/EU</div>
+                <div style="font-size:13px;color:var(--text-2);margin-top:2px">Lot Identification of Foodstuffs</div>
+                <div style="font-size:12px;color:var(--text-3);margin-top:4px">Requires indications for identifying the lot to which a foodstuff belongs, enabling traceability and targeted recall.</div>
+              </div>
+              <a href="https://eur-lex.europa.eu/eli/dir/2011/91/oj/eng" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:12px;padding:6px 14px;white-space:nowrap">View on EUR-Lex</a>
+            </div>
+          </div>
+
+          <div style="padding:14px 18px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border-light);border-left:3px solid var(--accent)">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--brand)">Regulation (EU) No 1151/2012</div>
+                <div style="font-size:13px;color:var(--text-2);margin-top:2px">Quality Schemes for Agricultural Products and Foodstuffs</div>
+                <div style="font-size:12px;color:var(--text-3);margin-top:4px">Establishes PDO, PGI, and TSG protection schemes. GI claims must be verified against eAmbrosia/GIView database.</div>
+              </div>
+              <a href="https://eur-lex.europa.eu/eli/reg/2012/1151/oj/eng" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:12px;padding:6px 14px;white-space:nowrap">View on EUR-Lex</a>
+            </div>
+          </div>
+
+          <div style="padding:14px 18px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border-light);border-left:3px solid var(--accent)">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--brand)">Regulation (EU) 2015/2283</div>
+                <div style="font-size:13px;color:var(--text-2);margin-top:2px">Novel Foods</div>
+                <div style="font-size:12px;color:var(--text-3);margin-top:4px">Requires pre-market authorisation for foods without significant consumption history in the EU before May 1997.</div>
+              </div>
+              <a href="https://eur-lex.europa.eu/eli/reg/2015/2283/oj/eng" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:12px;padding:6px 14px;white-space:nowrap">View on EUR-Lex</a>
+            </div>
+          </div>
+
+          <div style="padding:14px 18px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border-light);border-left:3px solid var(--accent)">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--brand)">Regulation (EU) 2018/848 &middot; Regulation (EU) 2018/775</div>
+                <div style="font-size:13px;color:var(--text-2);margin-top:2px">Organic Production / Primary Ingredient Origin</div>
+                <div style="font-size:12px;color:var(--text-3);margin-top:4px">2018/848: EU organic logo, certifying body code, origin. 2018/775: implementing rules for indicating primary ingredient origin under Art. 26(3) of 1169/2011.</div>
+              </div>
+              <a href="https://eur-lex.europa.eu/eli/reg/2018/848/oj/eng" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:12px;padding:6px 14px;white-space:nowrap">View on EUR-Lex</a>
+            </div>
+          </div>
+
+          <div style="padding:14px 18px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border-light);border-left:3px solid var(--accent)">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--brand)">Regulation (EC) 1829/2003 &middot; Regulation (EC) 1830/2003</div>
+                <div style="font-size:13px;color:var(--text-2);margin-top:2px">GMO Food/Feed &amp; Traceability</div>
+                <div style="font-size:12px;color:var(--text-3);margin-top:4px">Labelling required when GMO content exceeds 0.9% threshold per ingredient. Traceability documentation obligations.</div>
+              </div>
+              <a href="https://eur-lex.europa.eu/eli/reg/2003/1829/oj/eng" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:12px;padding:6px 14px;white-space:nowrap">View on EUR-Lex</a>
+            </div>
+          </div>
+
+          <div style="padding:14px 18px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border-light);border-left:3px solid var(--accent)">
+            <div style="display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:14px;font-weight:600;color:var(--brand)">Directive 2005/29/EC</div>
+                <div style="font-size:13px;color:var(--text-2);margin-top:2px">Unfair Commercial Practices</div>
+                <div style="font-size:12px;color:var(--text-3);margin-top:4px">General framework for assessing misleading marketing claims (e.g. "handcrafted", "traditional") that fall outside 1924/2006 scope.</div>
+              </div>
+              <a href="https://eur-lex.europa.eu/eli/dir/2005/29/oj/eng" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:12px;padding:6px 14px;white-space:nowrap">View on EUR-Lex</a>
+            </div>
+          </div>
+
+        </div>
+        <p style="font-size:12px;color:var(--text-3);margin-top:16px;padding-top:12px;border-top:1px solid var(--border-light)">All links point to the official EU law portal (EUR-Lex). Consolidated versions are shown where available. National implementing measures may impose additional requirements in individual Member States. This tool was last updated against legislation in force as of February 2026.</p>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="runCheck()">Run Compliance Check</button>
+      <button class="btn btn-ghost" onclick="loadExample('soup')">Load Example: Tomato Soup</button>
+      <button class="btn btn-ghost" onclick="loadExample('cheese')">Load Example: Gouda Cheese</button>
+      <button class="btn btn-ghost" onclick="loadExample('gin')">Load Example: Craft Gin</button>
+      <button class="btn btn-ghost" onclick="loadExample('supplement')">Load Example: Vitamin D</button>
+      <button class="btn btn-ghost" onclick="clearAll()">Clear</button>
+    </div>
+  </div>
+
+  <!-- ── RESULTS ── -->
+  <div id="resultsPanel">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;margin-top:32px">
+      <h2 style="font-family:var(--serif);font-size:28px;font-weight:400;color:var(--brand)">Compliance Report</h2>
+      <span id="rptId" style="font-family:var(--mono);font-size:11px;color:var(--text-3)"></span>
+    </div>
+    <div class="summary-grid" id="summaryGrid"></div>
+    <div id="verdictBar"></div>
+    <div class="checks" id="checksList"></div>
+    <div class="btn-row" style="margin-top:20px">
+      <button class="btn btn-primary" onclick="window.print()">Print / PDF</button>
+      <button class="btn btn-ghost" onclick="exportJSON()">Export JSON</button>
+    </div>
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> This tool provides compliance guidance based on the information entered. It does not constitute legal advice. Final regulatory responsibility rests with the food business operator under Article 8 of <a href="https://eur-lex.europa.eu/eli/reg/2011/1169/oj/eng" target="_blank" rel="noopener" style="color:var(--accent)">Regulation (EU) No 1169/2011</a>. For complex formulations, novel foods, or cross-border regulatory questions, independent legal review is recommended.<br><br>
+      <strong>Tool:</strong> COMPLIANT.EU v2.0 &mdash; &copy; 2026 Daniil Smetanca, MSc Food Safety, Wageningen University &amp; Research &mdash; <a href="#" onclick="switchTab(5);document.querySelector('.tab-bar').scrollIntoView({behavior:'smooth'});return false" style="color:var(--accent)">View full legal basis</a>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div style="margin-bottom:8px"><strong style="color:var(--text-2)">COMPLIANT.EU</strong> — EU Food Information Compliance Tool v2.0</div>
+  <div>Reg. (EU) 1169/2011 (FIC) &middot; Reg. (EC) 1924/2006 (Claims) &middot; Reg. (EU) 2019/787 (Spirits) &middot; Reg. (EU) 1151/2012 (GI) &middot; Dir. 2011/91/EU (Lot) &middot; Reg. (EU) 2015/2283 (Novel Food) &middot; Reg. (EU) 2018/848 (Organic) &middot; Reg. (EU) 2018/775 (Primary Ingredient Origin)</div>
+  <div style="margin-top:8px">&copy; 2026 Daniil Smetanca &middot; MSc Food Safety, Wageningen University &amp; Research</div>
+  <div style="margin-top:4px;font-size:10px;color:var(--text-3)">This tool provides compliance guidance only. Final regulatory responsibility rests with the food business operator (Art. 8, Reg. 1169/2011). Not a substitute for legal advice.</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// REFERENCE DATA
+// ══════════════════════════════════════════════════════════════════
+
+const ALLERGENS = {
+  gluten:      { n:"Cereals containing gluten", ref:"1", kw:["wheat","rye","barley","oats","spelt","kamut","gluten","flour","malt","semolina","couscous","bulgur","seitan","breadcrumbs","bran","wheat starch","barley malt","malt extract","malt vinegar","triticale","einkorn","emmer","durum"] },
+  crustaceans: { n:"Crustaceans", ref:"2", kw:["crab","lobster","shrimp","prawn","crayfish","langoustine","scampi","krill","crustacean"] },
+  eggs:        { n:"Eggs", ref:"3", kw:["egg","albumin","lysozyme","mayonnaise","ovalbumin","meringue","egg lecithin","ovomucin"] },
+  fish:        { n:"Fish", ref:"4", kw:["fish","anchovy","cod","salmon","tuna","isinglass","sardine","herring","mackerel","trout","bass","haddock","fish sauce","fish oil","surimi","caviar","roe","worcestershire"] },
+  peanuts:     { n:"Peanuts", ref:"5", kw:["peanut","groundnut","arachis","monkey nut","peanut oil","peanut butter","peanut flour"] },
+  soybeans:    { n:"Soybeans", ref:"6", kw:["soy","soya","tofu","tempeh","miso","edamame","soy sauce","soy protein","soy lecithin","soybean oil","textured vegetable protein"] },
+  milk:        { n:"Milk / Lactose", ref:"7", kw:["milk","lactose","casein","caseinate","whey","cream","butter","cheese","yogurt","yoghurt","ghee","lactalbumin","buttermilk","milk powder","condensed milk","milk protein","curds","skimmed milk","whole milk","semi-skimmed"] },
+  tree_nuts:   { n:"Tree Nuts", ref:"8", kw:["almond","hazelnut","walnut","cashew","pecan","brazil nut","pistachio","macadamia","praline","marzipan","nougat","frangipane","gianduja","chestnut"] },
+  celery:      { n:"Celery", ref:"9", kw:["celery","celeriac","celery salt","celery seed","celery powder"] },
+  mustard:     { n:"Mustard", ref:"10", kw:["mustard","mustard seed","mustard oil","dijon","mustard flour","mustard powder"] },
+  sesame:      { n:"Sesame", ref:"11", kw:["sesame","tahini","tahina","sesame oil","sesame paste","halvah","halva"] },
+  sulphites:   { n:"Sulphites (>10mg/kg SO₂)", ref:"12", kw:["sulphite","sulfite","sulphur dioxide","sulfur dioxide","so2","e220","e221","e222","e223","e224","e225","e226","e227","e228","metabisulphite","metabisulfite","bisulphite","bisulfite"] },
+  lupin:       { n:"Lupin", ref:"13", kw:["lupin","lupine","lupini","lupin flour","lupin protein"] },
+  molluscs:    { n:"Molluscs", ref:"14", kw:["mussel","oyster","clam","scallop","squid","octopus","snail","escargot","abalone","cuttlefish","calamari","mollusc","mollusk","whelk","cockle"] }
+};
+
+const SPIRIT_MIN_ABV = { vodka:37.5, gin:37.5, whisky:40, whiskey:40, rum:37.5, brandy:36, liqueur:15, tequila:37.5 };
+
+const EURLEX = {
+  "1169/2011": "https://eur-lex.europa.eu/eli/reg/2011/1169/oj/eng",
+  "1924/2006": "https://eur-lex.europa.eu/eli/reg/2006/1924/oj/eng",
+  "2019/787": "https://eur-lex.europa.eu/eli/reg/2019/787/oj/eng",
+  "2011/91": "https://eur-lex.europa.eu/eli/dir/2011/91/oj/eng",
+  "1151/2012": "https://eur-lex.europa.eu/eli/reg/2012/1151/oj/eng",
+  "2015/2283": "https://eur-lex.europa.eu/eli/reg/2015/2283/oj/eng",
+  "2018/848": "https://eur-lex.europa.eu/eli/reg/2018/848/oj/eng",
+  "2018/775": "https://eur-lex.europa.eu/eli/reg_impl/2018/775/oj/eng",
+  "1829/2003": "https://eur-lex.europa.eu/eli/reg/2003/1829/oj/eng",
+  "1830/2003": "https://eur-lex.europa.eu/eli/reg/2003/1830/oj/eng",
+  "2005/29": "https://eur-lex.europa.eu/eli/dir/2005/29/oj/eng",
+  "1308/2013": "https://eur-lex.europa.eu/eli/reg/2013/1308/oj/eng",
+};
+
+function linkifyRef(ref) {
+  if (!ref) return "";
+  let out = ref;
+  for (const [num, url] of Object.entries(EURLEX)) {
+    const escaped = num.replace("/", "\\/");
+    const regex = new RegExp("(Reg\\.?|Regulation|Dir\\.?|Directive)[^0-9]*" + escaped.replace(/\//g,"\\/"), "g");
+    if (ref.includes(num)) {
+      out = out.replace(new RegExp(num.replace("/","\\/"), "g"), `<a href="${url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline">${num}</a>`);
+    }
+  }
+  return out;
+}
+
+const NUTRITION_EXEMPT = ["Spirit","Wine","Beer","Supplement"];
+const DATE_EXEMPT_CATS = ["Spirit","Wine"];
+
+// ══════════════════════════════════════════════════════════════════
+// ALLERGEN UI
+// ══════════════════════════════════════════════════════════════════
+const ag = document.getElementById("allergenGrid");
+for (const [k,v] of Object.entries(ALLERGENS)) {
+  const d = document.createElement("label");
+  d.className = "allergen-item";
+  d.id = "ai_"+k;
+  d.innerHTML = `<input type="checkbox" value="${k}"> ${v.ref}. ${v.n}`;
+  ag.appendChild(d);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════════════════
+function switchTab(i) {
+  document.querySelectorAll('.tab').forEach((t,j) => t.classList.toggle('active', j===i));
+  document.querySelectorAll('.tab-panel').forEach((p,j) => p.classList.toggle('active', j===i));
+}
+
+// ══════════════════════════════════════════════════════════════════
+// GATHER DATA
+// ══════════════════════════════════════════════════════════════════
+function gatherData() {
+  const v = id => document.getElementById(id)?.value?.trim() || "";
+  const n = id => { const x = parseFloat(v(id)); return isNaN(x) ? null : x; };
+  return {
+    name: v("f_name"), company: v("f_company"), category: v("f_cat"), subcategory: v("f_subcat"),
+    qty: v("f_qty"), pkg: v("f_pkg"), abv: n("f_abv"), markets: v("f_markets"),
+    opName: v("f_op_name"), opAddr: v("f_op_addr"), origin: v("f_origin"), provenance: v("f_provenance"),
+    lot: v("f_lot"), dateType: v("f_date_type"), storage: v("f_storage"), instructions: v("f_instructions"),
+    lang: v("f_lang"), surface: n("f_surface"),
+    ingredients: v("f_ingredients").split(",").map(s=>s.trim()).filter(Boolean),
+    quid: v("f_quid"),
+    declaredAllergens: new Set(Array.from(document.querySelectorAll('#allergenGrid input:checked')).map(c=>c.value)),
+    nutriProvided: v("f_nutri_provided"), nutriPer: v("f_nutri_per"),
+    nKj: n("f_n_kj"), nKcal: n("f_n_kcal"), nFat: n("f_n_fat"), nSat: n("f_n_sat"),
+    nCarb: n("f_n_carb"), nSugar: n("f_n_sugar"), nProt: n("f_n_prot"), nSalt: n("f_n_salt"),
+    claims: v("f_claims").split(",").map(s=>s.trim()).filter(Boolean),
+    gi: v("f_gi"), giName: v("f_gi_name"), organic: v("f_organic"),
+    novel: v("f_novel"), gmo: v("f_gmo"), notes: v("f_notes"),
+  };
+}
+
+// ══════════════════════════════════════════════════════════════════
+// VALIDATION CHECKS
+// ══════════════════════════════════════════════════════════════════
+
+function scanAllergens(ingredients) {
+  const txt = ingredients.join(" ").toLowerCase();
+  const found = {};
+  for (const [k,v] of Object.entries(ALLERGENS)) {
+    const hits = v.kw.filter(w => txt.includes(w.toLowerCase()));
+    if (hits.length) found[k] = { name: v.n, hits };
+  }
+  return found;
+}
+
+function chk(name, result, conf, reasoning, ref, rec) {
+  return { name, result, conf, reasoning, ref: ref||"", rec: rec||"" };
+}
+
+function runChecks(d) {
+  const checks = [];
+  const isAlc = d.abv !== null && d.abv > 1.2;
+  const catLow = (d.category||"").toLowerCase();
+
+  // 1. PRODUCT NAME
+  checks.push(d.name
+    ? chk("Product Name","PASS",0.9,`Product name declared: "${d.name}". Verify this is the legal name where one exists (Art. 17(1)).`,"Art. 9(1)(a), Art. 17, Reg. 1169/2011","If a legal name exists in EU or national legislation, it must be used.")
+    : chk("Product Name","BLOCK",0.95,"No product name provided. This is a mandatory particular.","Art. 9(1)(a), Art. 17, Reg. 1169/2011","Provide the legal name, customary name, or a descriptive name.")
+  );
+
+  // 2. NET QUANTITY
+  checks.push(d.qty
+    ? chk("Net Quantity","PASS",0.85,`Net quantity: ${d.qty}. Verify correct unit (L/cl/ml for liquids; kg/g for solids) and minimum font size.`,"Art. 9(1)(e), Art. 23, Reg. 1169/2011","Must appear in same field of vision as product name. Use metric units.")
+    : chk("Net Quantity","BLOCK",0.9,"No net quantity declared.","Art. 9(1)(e), Art. 23, Reg. 1169/2011","Declare net quantity in appropriate metric units.")
+  );
+
+  // 3. OPERATOR INFO
+  const hasOp = d.opName || d.opAddr;
+  checks.push(hasOp
+    ? chk("FBO Identification","PASS",0.85,`Operator: ${d.opName}${d.opAddr ? ", "+d.opAddr : ""}. Verify this is the FBO under whose name the food is marketed, or the importer.`,"Art. 9(1)(h), Art. 8, Reg. 1169/2011","Name and address must be of the FBO responsible for food information.")
+    : chk("FBO Identification","BLOCK",0.95,"No food business operator name or address provided.","Art. 9(1)(h), Art. 8, Reg. 1169/2011","Provide name and address of the FBO under whose name the food is marketed.")
+  );
+
+  // 4. INGREDIENT LIST
+  if (!d.ingredients.length) {
+    if (isAlc) checks.push(chk("Ingredient List","FLAG",0.75,"No ingredients provided for alcoholic beverage. Beverages >1.2% ABV are currently exempt from mandatory ingredient listing under Art. 16(4) of Reg. 1169/2011. However, wine labelling (ingredients + nutrition) became mandatory from Dec 2023 via amended Reg. 1308/2013 (CMO). For spirits and beer, the Commission has committed to proposing mandatory labelling (Beating Cancer Plan) but no legislation has been adopted yet. Industry self-regulation (spiritsEUROPE) is advancing voluntary on-label energy + digital ingredient listing.","Art. 16(4), Art. 18, Reg. 1169/2011; Reg. 1308/2013 (wine)","Prepare ingredients list in descending weight order. Wine: already mandatory. Spirits/beer: anticipate upcoming legislation. Early compliance demonstrates market readiness."));
+    else checks.push(chk("Ingredient List","FLAG",0.7,"No ingredients provided. Required for most prepacked foods.","Art. 9(1)(b), Art. 18-20, Reg. 1169/2011","Provide full ingredient list in descending order of weight at manufacture."));
+  } else {
+    const n = d.ingredients.length;
+    checks.push(chk("Ingredient List","PASS",0.75,`${n} ingredients listed. Descending weight order assumed but cannot be verified without weight data. Verify compound ingredients are broken down (Art. 18(4)) and water is listed if >5%.`,"Art. 18-20, Reg. 1169/2011","Verify: headed by 'Ingredients:', descending weight, compound ingredients expanded, additives with category + E-number or name."));
+  }
+
+  // 5. ALLERGEN DECLARATION
+  const detected = scanAllergens(d.ingredients);
+  // Highlight detected allergens in UI
+  document.querySelectorAll('.allergen-item').forEach(el => el.classList.remove('detected'));
+  for (const k of Object.keys(detected)) {
+    const el = document.getElementById('ai_'+k);
+    if (el) el.classList.add('detected');
+  }
+
+  if (!d.ingredients.length) {
+    checks.push(chk("Allergen Declaration","FLAG",0.5,"Cannot scan for allergens without an ingredient list.","Art. 21, Annex II, Reg. 1169/2011","Provide ingredients to enable allergen cross-check."));
+  } else {
+    const undeclared = [];
+    for (const [k,info] of Object.entries(detected)) {
+      if (!d.declaredAllergens.has(k)) undeclared.push(info.name);
+    }
+    if (undeclared.length) {
+      checks.push(chk("Allergen Declaration","BLOCK",0.9,`Potentially undeclared allergens found in ingredient scan: ${undeclared.join(", ")}. These appear in your ingredients but are not ticked as declared.`,"Art. 21, Annex II, Reg. 1169/2011",`Declare and emphasise (bold, CAPS, or typeset) the following in the ingredient list: ${undeclared.join(", ")}.`));
+    } else if (Object.keys(detected).length) {
+      checks.push(chk("Allergen Declaration","PASS",0.85,`Detected allergens (${Object.keys(detected).map(k=>ALLERGENS[k].n).join(", ")}) all appear declared. Verify they are emphasised in the ingredient list through typeset clearly distinguished from other ingredients (Art. 21(1)(b)).`,"Art. 21, Annex II, Reg. 1169/2011","Ensure bold, CAPS, or other emphasis. If no ingredient list, use 'Contains:' statement."));
+    } else {
+      checks.push(chk("Allergen Declaration","PASS",0.8,"No Annex II allergens detected in ingredient scan and none declared.","Art. 21, Annex II, Reg. 1169/2011","If product may contain traces via cross-contamination, consider voluntary 'may contain' statement (not regulated by 1169/2011)."));
+    }
+  }
+
+  // 6. DATE MARKING
+  const dateExempt = (isAlc && d.abv >= 10) || DATE_EXEMPT_CATS.includes(d.category);
+  if (d.dateType === "bbd" || d.dateType === "use_by") {
+    const label = d.dateType === "use_by" ? "'Use by'" : "'Best before'";
+    checks.push(chk("Date Marking","PASS",0.85,`${label} date provided. ${d.dateType === "use_by" ? "Highly perishable: 'Use by' is correct. After this date, food is deemed unsafe (Art. 24(1))." : "Verify 'Best before' vs 'Use by' is appropriate for product shelf life and safety characteristics."}`,
+      "Art. 9(1)(f), Art. 24, Reg. 1169/2011",d.dateType === "use_by" ? "Ensure storage conditions are clearly linked. Food must not be sold after 'use by' date." : "Format: 'Best before DD/MM/YYYY' or 'Best before end MM/YYYY' for >3 months shelf life."));
+  } else if (d.dateType === "exempt" || dateExempt) {
+    checks.push(chk("Date Marking","PASS",0.8,"Date marking exemption claimed. Verify product falls within Annex X exemptions (beverages >10% ABV, fresh fruit/veg, vinegar, salt, solid sugar, etc.).","Art. 24(2), Annex X, Reg. 1169/2011","Confirm exemption applies. If in doubt, include 'Best before' date."));
+  } else {
+    checks.push(chk("Date Marking","FLAG",0.85,"No date marking provided and no exemption declared.","Art. 9(1)(f), Art. 24, Reg. 1169/2011","Provide 'Best before' or 'Use by' date. Check if Annex X exemption applies."));
+  }
+
+  // 7. LOT IDENTIFICATION
+  checks.push(d.lot
+    ? chk("Lot Identification","PASS",0.85,`Lot ID: ${d.lot}. Verify it is preceded by 'L' or clearly distinguishable from other label information.`,"Dir. 2011/91/EU","Lot marking enables traceability. Must be preceded by letter 'L' unless clearly distinguishable.")
+    : chk("Lot Identification","FLAG",0.8,"No lot identification provided.","Dir. 2011/91/EU","Add lot marking preceded by 'L' for traceability. Required for all marketed food.")
+  );
+
+  // 8. NUTRITION DECLARATION
+  const nutriExempt = NUTRITION_EXEMPT.includes(d.category) || (isAlc);
+  if (d.nutriProvided === "yes") {
+    const big7 = [d.nKj, d.nKcal, d.nFat, d.nSat, d.nCarb, d.nSugar, d.nProt, d.nSalt];
+    const filled = big7.filter(v => v !== null).length;
+    if (filled >= 7) {
+      // Check logical consistency
+      let issues = [];
+      if (d.nSat !== null && d.nFat !== null && d.nSat > d.nFat) issues.push("Saturates exceed total fat");
+      if (d.nSugar !== null && d.nCarb !== null && d.nSugar > d.nCarb) issues.push("Sugars exceed total carbohydrate");
+      if (d.nSalt !== null && d.nSalt > 100) issues.push("Salt value seems unrealistically high");
+      if (issues.length) {
+        checks.push(chk("Nutrition Declaration","FLAG",0.85,`Nutrition data provided but logical inconsistencies detected: ${issues.join("; ")}.`,"Art. 29-35, Reg. 1169/2011","Verify nutritional analysis values. Saturates ≤ fat, sugars ≤ carbohydrate."));
+      } else {
+        checks.push(chk("Nutrition Declaration","PASS",0.85,`All 7 mandatory elements provided (energy, fat, saturates, carbohydrate, sugars, protein, salt). Values appear logically consistent.`,"Art. 29-35, Annex XV, Reg. 1169/2011","Verify values are based on analysis, calculation, or established data (Art. 31). Tabular format required where space permits (Art. 34)."));
+      }
+    } else {
+      checks.push(chk("Nutrition Declaration","FLAG",0.8,`Only ${filled}/7 mandatory nutrition elements provided. All of the 'Big 7' are required: energy (kJ+kcal), fat, saturates, carbohydrate, sugars, protein, salt.`,"Art. 30(1), Reg. 1169/2011","Complete all mandatory fields. Energy must be expressed in both kJ and kcal."));
+    }
+  } else if (d.nutriProvided === "exempt" || nutriExempt) {
+    checks.push(chk("Nutrition Declaration","PASS",0.75,"Nutrition declaration exemption claimed. Verify product falls within Annex V exemptions.","Art. 16, Annex V, Reg. 1169/2011","Exempt categories include: beverages >1.2% ABV, unprocessed single-ingredient products, herbs/spices, salt, vinegar, tea/coffee, food supplements, water. If voluntarily provided, must follow full format."));
+  } else {
+    checks.push(chk("Nutrition Declaration","BLOCK",0.85,"No nutrition declaration and no exemption claimed. Mandatory for prepacked foods since Dec 2016.","Art. 9(1)(l), Art. 29, Reg. 1169/2011","Provide the Big 7: energy (kJ+kcal), fat, saturates, carbohydrate, sugars, protein, salt. Tabular format where space permits."));
+  }
+
+  // 9. ABV (if applicable)
+  if (isAlc) {
+    checks.push(chk("ABV Declaration","PASS",0.9,`ABV declared at ${d.abv}% vol. Format must be 'alc. X.X% vol' or 'X.X% vol' preceded by 'alcohol'.`,"Art. 9(1)(k), Art. 28, Annex XII, Reg. 1169/2011","Tolerance: ±0.5% vol for spirits, ±0.3% for other beverages. Verify label format."));
+
+    // Spirit category check
+    const sub = (d.subcategory||"").toLowerCase();
+    if (SPIRIT_MIN_ABV[sub] && d.abv < SPIRIT_MIN_ABV[sub]) {
+      checks.push(chk("Spirit Category ABV","BLOCK",0.95,`ABV ${d.abv}% is below minimum ${SPIRIT_MIN_ABV[sub]}% for '${d.subcategory}' under Reg. 2019/787.`,"Annex I, Reg. 2019/787",`Increase ABV to ≥${SPIRIT_MIN_ABV[sub]}% vol or reclassify the product.`));
+    } else if (d.category === "Spirit" && SPIRIT_MIN_ABV[sub]) {
+      checks.push(chk("Spirit Category ABV","PASS",0.8,`ABV ${d.abv}% meets minimum ${SPIRIT_MIN_ABV[sub]}% for '${d.subcategory}'. Full compositional compliance requires laboratory verification.`,"Annex I, Reg. 2019/787","Verify product meets all category-specific rules (raw materials, production method, sweetening limits)."));
+    }
+  } else if (["Spirit","Wine","Beer"].includes(d.category)) {
+    checks.push(chk("ABV Declaration","BLOCK",0.9,"Alcoholic beverage category selected but no ABV provided.","Art. 9(1)(k), Reg. 1169/2011","Declare ABV as 'alc. X.X% vol'."));
+  }
+
+  // 10. CLAIMS
+  if (d.claims.length) {
+    const healthKW = ["health","cure","treat","prevent","disease","medical","therapeutic","healing","remedy","immune","protects","reduces risk","lowers cholesterol","supports","maintains","contributes to"];
+    const nutriKW = ["low fat","low sugar","sugar free","no added sugar","high fibre","high fiber","source of","rich in","high in","low calorie","light","lite","reduced","free from","fat free","low sodium","low salt","high protein","no artificial","natural source"];
+    const hc = d.claims.filter(c => healthKW.some(k => c.toLowerCase().includes(k)));
+    const nc = d.claims.filter(c => nutriKW.some(k => c.toLowerCase().includes(k)));
+    const marketing = d.claims.filter(c => !hc.includes(c) && !nc.includes(c));
+
+    if (hc.length && isAlc) {
+      checks.push(chk("Health Claims","BLOCK",0.95,`Health claims on alcoholic beverage (>1.2% ABV): "${hc.join('", "')}". Health claims are PROHIBITED on alcoholic beverages.`,"Art. 4(3), Reg. 1924/2006","Remove all health claims. No exceptions for alcoholic beverages."));
+    } else if (hc.length) {
+      checks.push(chk("Health Claims","FLAG",0.85,`Potential health claims detected: "${hc.join('", "')}". All health claims must be authorised (EFSA-evaluated, listed in EU Register of permitted claims).`,"Art. 13-14, Reg. 1924/2006","Verify each claim against the EU Register of nutrition and health claims. Specific wording conditions apply."));
+    }
+
+    if (nc.length) {
+      if (isAlc) {
+        checks.push(chk("Nutrition Claims","FLAG",0.85,`Nutrition claims on alcoholic beverage: "${nc.join('", "')}". Only 'low alcohol', 'reduced alcohol', or 'reduced energy' claims are permitted for >1.2% ABV.`,"Art. 4(3), Reg. 1924/2006","Remove non-permitted nutrition claims. Verify claim is among the limited exceptions."));
+      } else {
+        checks.push(chk("Nutrition Claims","FLAG",0.8,`Nutrition claims detected: "${nc.join('", "')}". Each must meet quantitative conditions in the Annex of Reg. 1924/2006 (e.g. 'High in fibre' requires ≥6g/100g or ≥3g/100kcal).`,"Annex, Reg. 1924/2006","Verify each claim meets its specific conditions. Nutrition declaration is mandatory when nutrition claims are made."));
+      }
+    }
+
+    if (marketing.length) {
+      checks.push(chk("Marketing Claims","FLAG",0.6,`Marketing/other claims: "${marketing.join('", "')}". While not regulated under 1924/2006, claims must not mislead the consumer (Art. 7, Reg. 1169/2011).`,"Art. 7, Reg. 1169/2011; Art. 2, Dir. 2005/29/EC","Ensure claims are truthful and not misleading. 'Handcrafted', 'Traditional' etc. should be substantiated."));
+    }
+  } else {
+    checks.push(chk("Claims","PASS",0.9,"No nutrition, health, or marketing claims declared.","Reg. 1924/2006",""));
+  }
+
+  // 11. GI CHECK
+  if (d.gi !== "no") {
+    const giType = d.gi === "pdo" ? "PDO" : d.gi === "pgi" ? "PGI" : "TSG";
+    checks.push(chk("Geographic Indication","FLAG",0.5,`${giType} claimed: "${d.giName||"(not specified)"}". Must be verified against eAmbrosia/GIView EU register and meet all technical file specifications.`,
+      `Reg. (EU) 1151/2012${d.category==="Spirit" ? "; Art. 34-42, Reg. 2019/787" : ""}`,
+      `Verify registration in eAmbrosia database. Confirm product meets technical file. Use correct EU symbol (${giType}) on label.`));
+  }
+
+  // 12. FONT SIZE
+  if (d.surface !== null) {
+    if (d.surface < 25) {
+      checks.push(chk("Font Size & Legibility","FLAG",0.8,`Package surface <25 cm²: nutrition declaration may be exempted (Art. 16(4)), but all other mandatory info still required with minimum x-height 0.9mm.`,"Art. 13(2)-(3), Reg. 1169/2011","Use minimum 0.9mm x-height. Consider whether all mandatory info can fit legibly."));
+    } else if (d.surface < 80) {
+      checks.push(chk("Font Size & Legibility","PASS",0.75,`Package surface <80 cm²: reduced minimum x-height of 0.9mm applies.`,"Art. 13(3), Reg. 1169/2011","Minimum x-height: 0.9mm. Product name, net quantity, and ABV (if applicable) must be in same field of vision."));
+    } else {
+      checks.push(chk("Font Size & Legibility","PASS",0.75,`Package surface ≥80 cm²: standard minimum x-height of 1.2mm applies.`,"Art. 13(2), Reg. 1169/2011","Minimum x-height: 1.2mm. Verify all mandatory particulars meet this requirement."));
+    }
+  }
+
+  // 13. LANGUAGE
+  if (d.lang) {
+    checks.push(chk("Language Requirements","FLAG",0.6,`Language(s): ${d.lang}. Each Member State may require information in a language easily understood by consumers (Art. 15). Verify target market language requirements.`,"Art. 15, Reg. 1169/2011","NL: Dutch required. DE: German required. FR: French required. Multi-market products need multi-language labels or market-specific versions."));
+  }
+
+  // 14. QUID
+  if (d.quid === "yes") {
+    checks.push(chk("QUID","PASS",0.7,"QUID declared. Verify percentage is indicated for ingredients that appear in the product name, are highlighted, or are essential to characterise the food.","Art. 22, Reg. 1169/2011","QUID percentage must refer to quantity at time of manufacture. Exemptions exist for volatile ingredients and drain weight products."));
+  } else if (d.quid === "unsure" && d.ingredients.length) {
+    checks.push(chk("QUID","FLAG",0.65,"QUID applicability unclear. If any ingredient appears in the product name, is visually highlighted, or is essential to characterise the food, its percentage must be declared.","Art. 22, Annex VIII, Reg. 1169/2011","Review product name and label graphics. If ingredient is named/shown, QUID is likely required."));
+  }
+
+  // 15. ORGANIC
+  if (d.organic === "yes") {
+    checks.push(chk("Organic Certification","FLAG",0.6,"Organic claim present. EU organic logo mandatory for prepacked EU-produced organic food. Must include code of certifying body and origin indication.","Art. 24-25, Reg. 2018/848","Verify: EU organic leaf logo present, certifying body code number, and 'EU Agriculture' / 'non-EU Agriculture' / specific country origin."));
+  }
+
+  // 16. NOVEL FOOD
+  if (d.novel === "yes") {
+    checks.push(chk("Novel Food Status","FLAG",0.7,"Product contains novel food ingredient(s). Must be authorised under Reg. 2015/2283 and listed in the Union List before marketing.","Reg. (EU) 2015/2283","Check EU Novel Food Catalogue and Union List. Specific labelling requirements may apply (conditions of use, designation)."));
+  } else if (d.novel === "unsure") {
+    checks.push(chk("Novel Food Status","FLAG",0.5,"Novel food status uncertain. If any ingredient lacks significant consumption history in the EU before May 1997, it may require authorisation.","Reg. (EU) 2015/2283","Consult EU Novel Food Catalogue. When in doubt, seek EFSA pre-market authorisation."));
+  }
+
+  // 17. GMO
+  if (d.gmo === "yes") {
+    checks.push(chk("GMO Declaration","FLAG",0.7,"Product contains or is produced from GMOs. Labelling required where GMO content exceeds 0.9% threshold per ingredient.","Reg. (EC) 1829/2003, 1830/2003","Label: 'This product contains genetically modified [organism name]' or 'produced from genetically modified [name]'. Traceability documentation required."));
+  } else if (d.gmo === "free") {
+    checks.push(chk("GMO-Free Claim","FLAG",0.6,"'GMO-free' labelling is not harmonised at EU level. Some Member States have national schemes (e.g. Germany's 'Ohne Gentechnik', Austria's scheme).","National legislation (not harmonised)","Verify compliance with national 'GMO-free' scheme requirements for target market(s)."));
+  }
+
+  // 18. COUNTRY OF ORIGIN
+  const originMandatoryCats = ["Meat","Fish_seafood","Fruit_veg","Dairy"];
+  if (d.origin) {
+    checks.push(chk("Country of Origin","PASS",0.8,`Origin declared: ${d.origin}.${d.provenance ? " Place of provenance: "+d.provenance+"." : ""} Verify accuracy and whether primary ingredient origin differs (Reg. 2018/775).`,"Art. 26, Reg. 1169/2011; Reg. 2018/775","If primary ingredient origin differs from product origin, this must be indicated."));
+  } else if (originMandatoryCats.includes(d.category)) {
+    checks.push(chk("Country of Origin","BLOCK",0.85,`Country of origin not provided. Mandatory for category '${d.category}'.`,"Art. 26, Reg. 1169/2011","Provide country of origin. Mandatory for: fresh/chilled/frozen meat, honey, olive oil, fresh fruit & vegetables, fish, and where omission could mislead."));
+  } else {
+    checks.push(chk("Country of Origin","FLAG",0.6,"Country of origin not declared. While not always mandatory, it is required where omission could mislead the consumer.","Art. 26, Reg. 1169/2011","Consider whether product presentation (branding, imagery, language) could imply an origin. If so, actual origin must be stated."));
+  }
+
+  return checks;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RUN
+// ══════════════════════════════════════════════════════════════════
+let lastReport = null;
+
+function runCheck() {
+  const d = gatherData();
+  if (!d.name) { alert("Please enter a product name."); return; }
+
+  const checks = runChecks(d);
+  const pass = checks.filter(c=>c.result==="PASS").length;
+  const flag = checks.filter(c=>c.result==="FLAG").length;
+  const block = checks.filter(c=>c.result==="BLOCK").length;
+  let risk = Math.min(block*25 + flag*8, 100);
+
+  let verdict, vClass;
+  if (block) { verdict = "CANNOT PROCEED — Critical non-compliance issues require resolution"; vClass = "v-block"; }
+  else if (flag >= 4) { verdict = "HUMAN REVIEW REQUIRED — Multiple items need expert assessment"; vClass = "v-flag"; }
+  else if (flag) { verdict = "CONDITIONAL PASS — Minor issues to address before market placement"; vClass = "v-flag"; }
+  else { verdict = "COMPLIANT — No issues detected (manual label review still recommended)"; vClass = "v-pass"; }
+
+  const now = new Date();
+  const id = `CR-${now.toISOString().slice(0,10).replace(/-/g,"")}-${String(Math.floor(Math.random()*999)+1).padStart(3,"0")}`;
+  lastReport = { id, date: now.toISOString().slice(0,10), product: d, checks, pass, flag, block, risk, verdict };
+
+  renderResults(lastReport, vClass);
+}
+
+function renderResults(r, vClass) {
+  const panel = document.getElementById("resultsPanel");
+  panel.classList.add("visible");
+  document.getElementById("rptId").textContent = r.id + " | " + r.date;
+
+  document.getElementById("summaryGrid").innerHTML = `
+    <div class="stat-card s-risk"><div class="stat-label">Risk Score</div><div class="stat-val">${r.risk}</div><div class="stat-sub">/ 100</div></div>
+    <div class="stat-card s-pass"><div class="stat-label">Passed</div><div class="stat-val">${r.pass}</div><div class="stat-sub">checks</div></div>
+    <div class="stat-card s-flag"><div class="stat-label">Flagged</div><div class="stat-val">${r.flag}</div><div class="stat-sub">review needed</div></div>
+    <div class="stat-card s-block"><div class="stat-label">Critical</div><div class="stat-val">${r.block}</div><div class="stat-sub">must resolve</div></div>
+  `;
+
+  document.getElementById("verdictBar").innerHTML = `<div class="verdict-bar ${vClass}">${r.verdict}</div>`;
+
+  const list = document.getElementById("checksList");
+  list.innerHTML = "";
+  r.checks.forEach(c => {
+    const ic = c.result==="PASS"?"pass":c.result==="FLAG"?"flag":c.result==="BLOCK"?"block":"na";
+    const sym = c.result==="PASS"?"✓":c.result==="FLAG"?"!":c.result==="BLOCK"?"✕":"—";
+    const div = document.createElement("div");
+    div.className = "chk";
+    div.innerHTML = `
+      <div class="chk-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="chk-icon ${ic}">${sym}</div>
+        <div class="chk-info"><div class="chk-name">${c.name}</div><div class="chk-preview">${c.reasoning.slice(0,90)}${c.reasoning.length>90?"...":""}</div></div>
+        <div class="chk-conf">${(c.conf*100).toFixed(0)}%</div>
+      </div>
+      <div class="chk-body">
+        <div class="chk-row"><strong>Finding</strong><span>${c.reasoning}</span></div>
+        ${c.ref ? `<div class="chk-row"><strong>Legal Basis</strong><span>${linkifyRef(c.ref)}</span></div>` : ""}
+        ${c.rec ? `<div class="chk-row"><strong>Recommendation</strong><span>${c.rec}</span></div>` : ""}
+      </div>
+    `;
+    list.appendChild(div);
+  });
+
+  panel.scrollIntoView({ behavior: "smooth" });
+}
+
+function exportJSON() {
+  if (!lastReport) return;
+  const blob = new Blob([JSON.stringify(lastReport, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = lastReport.id + ".json";
+  a.click();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// EXAMPLES
+// ══════════════════════════════════════════════════════════════════
+const EXAMPLES = {
+  soup: {
+    f_name:"Organic Tomato & Basil Soup", f_company:"BioSoep BV", f_cat:"Ready_meal", f_subcat:"Cream soup",
+    f_qty:"400 ml", f_pkg:"prepacked", f_abv:"", f_markets:"NL, DE, BE",
+    f_op_name:"BioSoep BV", f_op_addr:"Keizersgracht 220, 1016 DZ Amsterdam, NL",
+    f_origin:"Netherlands", f_provenance:"", f_lot:"L2025-0312", f_date_type:"bbd",
+    f_storage:"Keep refrigerated (2-7°C). Once opened, consume within 2 days.", f_instructions:"Heat gently. Do not boil.",
+    f_lang:"Dutch, English", f_surface:"180",
+    f_ingredients:"Water, Tomatoes (35%), CREAM (MILK) (10%), Onion, Olive oil, Sugar, Salt, Garlic, Basil (1.5%), Black pepper, Citric acid (E330)",
+    f_quid:"yes", allergens:["milk"],
+    f_nutri_provided:"yes", f_nutri_per:"100ml", f_n_kj:"230", f_n_kcal:"55", f_n_fat:"3.2", f_n_sat:"1.8", f_n_carb:"4.8", f_n_sugar:"3.1", f_n_prot:"1.2", f_n_salt:"0.65",
+    f_claims:"Organic, No artificial colours or flavours", f_gi:"no", f_gi_name:"", f_organic:"yes", f_novel:"no", f_gmo:"no", f_notes:""
+  },
+  cheese: {
+    f_name:"Gouda Holland Aged 12 Months", f_company:"Kaasmakerij Van der Berg", f_cat:"Dairy", f_subcat:"Hard cheese",
+    f_qty:"300 g", f_pkg:"prepacked", f_abv:"", f_markets:"NL, DE, FR, EU-wide",
+    f_op_name:"Kaasmakerij Van der Berg BV", f_op_addr:"Zuivelweg 15, 2801 AB Gouda, NL",
+    f_origin:"Netherlands", f_provenance:"Gouda region", f_lot:"L2025-0198", f_date_type:"bbd",
+    f_storage:"Keep refrigerated (4-8°C)", f_instructions:"",
+    f_lang:"Dutch, English, French, German", f_surface:"250",
+    f_ingredients:"Pasteurised cow's MILK, Salt, Starter cultures, Rennet, Annatto (E160b)",
+    f_quid:"no", allergens:["milk"],
+    f_nutri_provided:"yes", f_nutri_per:"100g", f_n_kj:"1580", f_n_kcal:"380", f_n_fat:"30.5", f_n_sat:"19.8", f_n_carb:"0.1", f_n_sugar:"0.1", f_n_prot:"25.5", f_n_salt:"2.8",
+    f_claims:"Source of calcium, High in protein", f_gi:"pgi", f_gi_name:"Gouda Holland", f_organic:"no", f_novel:"no", f_gmo:"no", f_notes:""
+  },
+  gin: {
+    f_name:"Amsterdam Botanical Gin", f_company:"De Stadsbrouwerij BV", f_cat:"Spirit", f_subcat:"Gin",
+    f_qty:"700 ml", f_pkg:"prepacked", f_abv:"42", f_markets:"NL, DE, BE",
+    f_op_name:"De Stadsbrouwerij BV", f_op_addr:"Herengracht 100, 1015 Amsterdam, NL",
+    f_origin:"Netherlands", f_provenance:"", f_lot:"L2024-0842", f_date_type:"exempt",
+    f_storage:"", f_instructions:"", f_lang:"English, Dutch", f_surface:"300",
+    f_ingredients:"Grain spirit, Juniper berries, Coriander seeds, Angelica root, Orange peel, Lemon peel, Orris root, Cassia bark, ALMONDS, Liquorice root, Water",
+    f_quid:"no", allergens:["tree_nuts"],
+    f_nutri_provided:"exempt", f_nutri_per:"100ml", f_n_kj:"", f_n_kcal:"", f_n_fat:"", f_n_sat:"", f_n_carb:"", f_n_sugar:"", f_n_prot:"", f_n_salt:"",
+    f_claims:"Small batch, Handcrafted", f_gi:"no", f_gi_name:"", f_organic:"no", f_novel:"no", f_gmo:"no", f_notes:""
+  },
+  supplement: {
+    f_name:"Vitamin D3 2000 IU Tablets", f_company:"VitalNutra BV", f_cat:"Supplement", f_subcat:"Vitamin supplement",
+    f_qty:"90 tablets (45 g)", f_pkg:"prepacked", f_abv:"", f_markets:"NL, DE, BE, FR",
+    f_op_name:"VitalNutra BV", f_op_addr:"Innovatieweg 8, 3542 DZ Utrecht, NL",
+    f_origin:"Netherlands", f_provenance:"", f_lot:"L2025-VD-088", f_date_type:"bbd",
+    f_storage:"Store in a cool, dry place. Keep out of reach of children.", f_instructions:"Take 1 tablet daily with a meal.",
+    f_lang:"Dutch, English, French, German", f_surface:"60",
+    f_ingredients:"Bulking agent (Microcrystalline cellulose), Cholecalciferol (Vitamin D3), Anti-caking agents (Magnesium stearate, Silicon dioxide), Coating agent (Hydroxypropyl methylcellulose)",
+    f_quid:"no", allergens:[],
+    f_nutri_provided:"exempt", f_nutri_per:"100g", f_n_kj:"", f_n_kcal:"", f_n_fat:"", f_n_sat:"", f_n_carb:"", f_n_sugar:"", f_n_prot:"", f_n_salt:"",
+    f_claims:"Supports immune function, Contributes to normal bone health", f_gi:"no", f_gi_name:"", f_organic:"no", f_novel:"no", f_gmo:"no",
+    f_notes:"Must include: 'Food supplement' designation, recommended daily dose, warning not to exceed dose, statement about varied diet, keep out of reach of children."
+  }
+};
+
+function loadExample(key) {
+  clearAll();
+  const ex = EXAMPLES[key];
+  for (const [id, val] of Object.entries(ex)) {
+    if (id === "allergens") {
+      document.querySelectorAll('#allergenGrid input').forEach(cb => cb.checked = val.includes(cb.value));
+      continue;
+    }
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  }
+}
+
+function clearAll() {
+  document.querySelectorAll('input, textarea').forEach(el => el.value = "");
+  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+  document.querySelectorAll('#allergenGrid input').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.allergen-item').forEach(el => el.classList.remove('detected'));
+  document.getElementById("resultsPanel").classList.remove("visible");
+  lastReport = null;
+}
+</script>
+</body>
+</html>
