@@ -3,10 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compliant EU</title>
+    <title>EU Food Compliance Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { color: green; }
+        .container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+        .input-group { margin: 10px 0; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"] { width: 100%; padding: 8px; }
+        button { background-color: green; color: white; border: none; padding: 10px; cursor: pointer; }
+        button:hover { background-color: darkgreen; }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Compliant EU Project</h1>
-    <p>This is the index.html file content.</p>
+    <div class="container">
+        <h1>EU Food Compliance Tool</h1>
+        <div class="input-group">
+            <label for="foodItem">Enter Food Item:</label>
+            <input type="text" id="foodItem" placeholder="e.g., Cheese">
+        </div>
+        <button onclick="checkCompliance()">Check Compliance</button>
+        <p id="result"></p>
+    </div>
+    <script>
+        function checkCompliance() {
+            const foodItem = document.getElementById('foodItem').value;
+            const resultDisplay = document.getElementById('result');
+            // Simple mock compliance check example
+            if (foodItem.toLowerCase() === 'cheese') {
+                resultDisplay.textContent = 'This food item is compliant with EU regulations.';
+            } else {
+                resultDisplay.textContent = 'This food item is not compliant with EU regulations.';
+            }
+        }
+    </script>
 </body>
 </html>
