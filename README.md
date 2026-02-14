@@ -1,4 +1,4 @@
-# COMPLIANT.EU
+# EU Label Check
 
 **EU Food Information Compliance Tool v2.0**
 
